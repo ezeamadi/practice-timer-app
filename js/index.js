@@ -12,21 +12,20 @@ circle.setAttribute('stroke-dasharray', perimeter);
 
 // variables to help in the timer class for calculations
 
-let currentOffset = 0;
-// creating am instance of our class timer.
+let duration;
+// creating an instance of our class timer.
 
 const timer = new Timer(durationInput, startButton, pauseButton, {
 	// Optional Callbacks that will be used...
-	onStart() {
-		console.log('Timer has Started');
+	onStart(totalDuration) {
+		duration = totalDuration;
 	},
 
 	onComplete() {
 		console.log('Timer has stopped');
 	},
 
-	onTick() {
-		circle.setAttribute('stroke-dashoffset', currentOffset);
-		currentOffset -= 5;
+	onTick(timeRemaining) {
+		circle.setAttribute('stroke-dashoffset', perimeter * timeRemaining / duration - perimeter);
 	}
 });

@@ -1,3 +1,5 @@
+// Timer Class
+
 class Timer {
 	// declare the constructor of the class
 	constructor(durationInput, startButton, pauseButton, callbacks) {
@@ -5,7 +7,7 @@ class Timer {
 		this.durationInput = durationInput;
 		this.startButton = startButton;
 		this.pauseButton = pauseButton;
-		
+
 		if (callbacks) {
 			this.onStart = callbacks.onStart;
 			this.onTick = callbacks.onTick;
@@ -19,11 +21,11 @@ class Timer {
 
 	start = () => {
 		if (this.onStart) {
-			this.onStart();
+			this.onStart(this.timeRemaining);
 		}
 		// Start method starts the tick method
 		this.tick(); // invoke the first one immediately so that users won't have to wait 1 full second to see timer start
-		this.interval = setInterval(this.tick, 1000); // counts down every 1 second. this.interval is used because we need tat same variable in the pause method to stop the timer.
+		this.interval = setInterval(this.tick, 50); // counts down every 1 second. this.interval is used because we need tat same variable in the pause method to stop the timer.
 	};
 
 	tick = () => {
@@ -34,9 +36,9 @@ class Timer {
 			}
 		} else {
 			// get the time remaining from the input value in the html and re-assign it to the input value as the tick happens.
-			this.timeRemaining = this.timeRemaining - 1;
+			this.timeRemaining = this.timeRemaining - 0.05;
 			if (this.onTick) {
-				this.onTick();
+				this.onTick(this.timeRemaining);
 			}
 		}
 
@@ -47,11 +49,11 @@ class Timer {
 	//GETTER AND SETTER FOR THE DURATION INPUT IN THE TICK METHOD.
 
 	get timeRemaining() {
-		return parseInt(this.durationInput.value);
+		return parseFloat(this.durationInput.value);
 	}
 
 	set timeRemaining(time) {
-		this.durationInput.value = time;
+		this.durationInput.value = time.toFixed(2);
 	}
 
 	/*
